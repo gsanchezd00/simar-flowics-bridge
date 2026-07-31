@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>SIMAR Sargazo para Flowics</title>
+  <style>
+    html,body {
+      width:100%;
+      height:100%;
+      margin:0;
+      overflow:hidden;
+      background:#06131f;
+    }
+    #map {
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border:0;
+    }
+  </style>
+</head>
+<body>
+  <img id="map" src="./latest.jpg" alt="Mapa satelital SIMAR de sargazo">
+  <script>
+    const image = document.getElementById("map");
+    function refresh() {
+      image.src = "./latest.jpg?t=" + Date.now();
+    }
+    setInterval(refresh, 5 * 60 * 1000);
+  </script>
+</body>
+</html>

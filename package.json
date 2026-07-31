@@ -1,0 +1,12 @@
+{
+  "name": "simar-flowics-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture": "node capture.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.54.1"
+  }
+}
