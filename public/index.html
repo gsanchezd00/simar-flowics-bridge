@@ -1,13 +1,16 @@
-<!doctype html>
+!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+  >
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
 
-  <title>SIMAR Sargazo Interactivo</title>
+  <title>SIMAR — Sargazo en el tiempo</title>
 
   <link
     rel="stylesheet"
@@ -15,6 +18,22 @@
   >
 
   <style>
+    :root {
+      --timeline-height: 116px;
+      --panel: rgba(3, 18, 29, 0.93);
+      --panel-soft: rgba(8, 35, 51, 0.86);
+      --line: rgba(255, 255, 255, 0.16);
+      --text: #f4fbff;
+      --muted: #9eb7c5;
+      --accent: #18d9ff;
+      --latest: #00e56b;
+      --danger: #ff6262;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     html,
     body,
     #map {
@@ -24,81 +43,399 @@
       padding: 0;
       overflow: hidden;
       background: #06131f;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #map {
+      position: fixed;
+      inset: 0 0 var(--timeline-height) 0;
+      z-index: 1;
     }
 
     #fallback {
       position: fixed;
-      inset: 0;
+      inset: 0 0 var(--timeline-height) 0;
       width: 100%;
-      height: 100%;
+      height: calc(100% - var(--timeline-height));
       object-fit: cover;
       z-index: 0;
       display: none;
     }
 
-    #map {
+    .top-status {
       position: fixed;
-      inset: 0;
-      z-index: 1;
-    }
-
-    #status {
-      position: fixed;
-      left: 14px;
-      bottom: 14px;
+      top: 14px;
+      left: 58px;
       z-index: 1000;
-      max-width: min(560px, calc(100vw - 28px));
-      padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: 8px;
-      background: rgba(4, 17, 29, 0.82);
-      color: #fff;
-      font: 600 13px/1.25 Arial, Helvetica, sans-serif;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
-      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      max-width: calc(100vw - 90px);
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: rgba(2, 17, 28, 0.82);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.2;
+      backdrop-filter: blur(6px);
       pointer-events: none;
     }
 
-    #status.error {
-      background: rgba(118, 21, 21, 0.88);
+    .top-status.error {
+      background: rgba(112, 19, 25, 0.9);
     }
 
-    .leaflet-control-layers,
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(24, 217, 255, 0.75);
+    }
+
+    .top-status.error .status-dot {
+      background: var(--danger);
+      box-shadow: none;
+    }
+
+    .timeline-shell {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1100;
+      height: var(--timeline-height);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      border-top: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      backdrop-filter: blur(10px);
+    }
+
+    .timeline-controls {
+      min-width: 308px;
+      display: grid;
+      grid-template-columns: repeat(5, 38px) minmax(112px, auto);
+      grid-template-rows: 40px 34px;
+      align-content: center;
+      align-items: center;
+      gap: 5px;
+      padding: 9px 12px;
+      border-right: 1px solid var(--line);
+    }
+
+    .timeline-controls button {
+      width: 38px;
+      height: 34px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .timeline-controls button:hover {
+      border-color: rgba(24, 217, 255, 0.75);
+      background: rgba(24, 217, 255, 0.12);
+    }
+
+    .timeline-controls button:disabled {
+      cursor: default;
+      opacity: 0.4;
+    }
+
+    .timeline-controls .play {
+      color: var(--accent);
+      font-size: 17px;
+    }
+
+    .timeline-controls .date-box {
+      grid-column: 6;
+      grid-row: 1 / span 2;
+      min-width: 120px;
+      padding-left: 8px;
+      line-height: 1.05;
+    }
+
+    .timeline-controls .periodicity {
+      grid-column: 1 / span 5;
+      grid-row: 2;
+      align-self: end;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .date-main {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .date-sub {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .timeline-viewport {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .month-row {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 13px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      pointer-events: none;
+    }
+
+    .month-label {
+      flex: 0 0 auto;
+      padding-right: 7px;
+    }
+
+    .days-scroll {
+      height: 85px;
+      display: flex;
+      align-items: stretch;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(24, 217, 255, 0.55) transparent;
+      scroll-behavior: smooth;
+    }
+
+    .days-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .days-scroll::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background: rgba(24, 217, 255, 0.55);
+    }
+
+    .day-button {
+      position: relative;
+      flex: 0 0 48px;
+      height: 78px;
+      margin: 0;
+      padding: 14px 4px 7px;
+      border: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.09);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .day-button:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+    }
+
+    .day-button.selected {
+      background: rgba(24, 217, 255, 0.17);
+      color: #fff;
+      box-shadow: inset 0 3px 0 var(--accent);
+    }
+
+    .day-button.latest::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--latest);
+      box-shadow: 0 0 9px rgba(0, 229, 107, 0.8);
+    }
+
+    .day-button.unavailable {
+      color: rgba(158, 183, 197, 0.36);
+      text-decoration: line-through;
+    }
+
+    .day-button.future {
+      opacity: 0.25;
+      cursor: default;
+    }
+
+    .day-number {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .day-name {
+      display: block;
+      margin-top: 7px;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .month-divider {
+      border-left: 2px solid rgba(24, 217, 255, 0.55);
+    }
+
+    .leaflet-control-zoom,
     .leaflet-bar {
       border: 0 !important;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.32) !important;
     }
 
     .leaflet-control-attribution {
-      background: rgba(255, 255, 255, 0.78) !important;
-      font-size: 10px !important;
+      background: rgba(255, 255, 255, 0.72) !important;
+      font-size: 9px !important;
     }
 
-    @media (max-width: 700px) {
-      #status {
-        font-size: 11px;
+    @media (max-width: 820px) {
+      :root {
+        --timeline-height: 154px;
+      }
+
+      .timeline-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: 67px 87px;
+      }
+
+      .timeline-controls {
+        min-width: 0;
+        grid-template-columns: repeat(5, 36px) 1fr;
+        grid-template-rows: 34px 20px;
+        padding: 6px 9px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .timeline-controls button {
+        width: 36px;
+        height: 31px;
+      }
+
+      .timeline-controls .date-box {
+        min-width: 0;
+      }
+
+      .date-main {
+        font-size: 13px;
+      }
+
+      .month-row {
+        height: 24px;
+      }
+
+      .days-scroll {
+        height: 63px;
+      }
+
+      .day-button {
+        height: 59px;
+        padding-top: 10px;
+      }
+
+      .day-number {
+        font-size: 16px;
+      }
+
+      .day-name {
+        margin-top: 4px;
       }
     }
   </style>
 </head>
 
 <body>
-  <img id="fallback" src="./latest.jpg" alt="Respaldo del mapa SIMAR">
+  <img id="fallback" src="./latest.jpg" alt="Captura de respaldo del mapa SIMAR">
   <div id="map"></div>
-  <div id="status">Cargando capa satelital de sargazo…</div>
+
+  <div id="status" class="top-status" aria-live="polite">
+    <span class="status-dot"></span>
+    <span id="statusText">Cargando sargazo SIMAR…</span>
+  </div>
+
+  <section class="timeline-shell" aria-label="Línea de tiempo del sargazo">
+    <div class="timeline-controls">
+      <button id="olderWindow" title="Mostrar 30 días anteriores">«</button>
+      <button id="previousDay" title="Día anterior">‹</button>
+      <button id="playPause" class="play" title="Reproducir">▶</button>
+      <button id="nextDay" title="Día siguiente">›</button>
+      <button id="newerWindow" title="Mostrar 30 días posteriores">»</button>
+
+      <div class="periodicity">Periodicidad: diario</div>
+
+      <div class="date-box">
+        <div id="selectedDate" class="date-main">—</div>
+        <div id="productName" class="date-sub">Mean-AFAI · 7 días</div>
+      </div>
+    </div>
+
+    <div class="timeline-viewport">
+      <div id="monthRow" class="month-row"></div>
+      <div id="daysScroll" class="days-scroll"></div>
+    </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
     "use strict";
 
-    const STATUS = document.getElementById("status");
-    const FALLBACK = document.getElementById("fallback");
+    const COMPOSITION = "mean-7day-afai";
+    const API_ENDPOINT =
+      "https://dashboard-simar.conabio.gob.mx/api/raster-layer/";
 
     const MAP_HOME = {
-      center: [20.0, -89.5],
+      center: [20.5, -89.5],
       zoom: 5
     };
+
+    const WINDOW_BEFORE = 34;
+    const WINDOW_AFTER = 15;
+    const PLAY_INTERVAL_MS = 1800;
+
+    const state = {
+      latestDate: null,
+      selectedDate: null,
+      windowCenter: null,
+      layer: null,
+      cache: new Map(),
+      unavailable: new Set(),
+      playing: false,
+      playTimer: null,
+      requestToken: 0
+    };
+
+    const statusElement = document.getElementById("status");
+    const statusText = document.getElementById("statusText");
+    const selectedDateElement = document.getElementById("selectedDate");
+    const productNameElement = document.getElementById("productName");
+    const daysScroll = document.getElementById("daysScroll");
+    const monthRow = document.getElementById("monthRow");
+    const fallback = document.getElementById("fallback");
+
+    const olderWindowButton = document.getElementById("olderWindow");
+    const previousDayButton = document.getElementById("previousDay");
+    const playPauseButton = document.getElementById("playPause");
+    const nextDayButton = document.getElementById("nextDay");
+    const newerWindowButton = document.getElementById("newerWindow");
 
     const map = L.map("map", {
       center: MAP_HOME.center,
@@ -116,35 +453,11 @@
       preferCanvas: true
     });
 
-    const satellite = L.tileLayer(
+    L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         maxZoom: 19,
         attribution: "Mapa base: Esri"
-      }
-    ).addTo(map);
-
-    const streets = L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        maxZoom: 19,
-        attribution: "© OpenStreetMap"
-      }
-    );
-
-    let sargazoLayer = null;
-    let activeSignature = "";
-
-    const overlays = {};
-    const layerControl = L.control.layers(
-      {
-        "Satélite": satellite,
-        "Calles": streets
-      },
-      overlays,
-      {
-        position: "topright",
-        collapsed: true
       }
     ).addTo(map);
 
@@ -176,159 +489,460 @@
     map.addControl(new HomeControl());
 
     function setStatus(message, isError = false) {
-      STATUS.textContent = message;
-      STATUS.classList.toggle("error", isError);
+      statusText.textContent = message;
+      statusElement.classList.toggle("error", isError);
     }
 
-    function findSargazoRequest(data) {
-      if (!data || !Array.isArray(data.requests)) {
-        throw new Error("requests.json no contiene la lista esperada");
-      }
-
-      const pattern =
-        /https:\/\/dashboard-simar\.conabio\.gob\.mx\/api\/tiles\/mean-7day-afai\/[^/]+\/\d{4}-\d{2}-\d{2}\/wmts\/nsst\/webmercator\/\d+\/\d+\/\d+\.png/i;
-
-      return data.requests.find(item =>
-        item &&
-        typeof item.url === "string" &&
-        pattern.test(item.url) &&
-        (item.status === 200 || item.status === null)
-      );
+    function isoDate(date) {
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     }
 
-    function makeTileTemplate(sampleUrl) {
-      const withoutQuery = sampleUrl.split("?")[0];
-
-      const template = withoutQuery.replace(
-        /\/webmercator\/\d+\/\d+\/\d+\.png$/i,
-        "/webmercator/{z}/{x}/{y}.png"
-      );
-
-      if (!template.includes("{z}/{x}/{y}")) {
-        throw new Error("No se pudo convertir la URL en plantilla WMTS");
-      }
-
-      return template;
+    function parseDate(dateString) {
+      const [year, month, day] = dateString.split("-").map(Number);
+      return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
     }
 
-    function extractProductDate(url) {
-      const match = url.match(
-        /mean-7day-afai\/[^/]+\/(\d{4}-\d{2}-\d{2})\/wmts/i
-      );
-
-      return match ? match[1] : "fecha no identificada";
+    function addDays(dateString, amount) {
+      const date = parseDate(dateString);
+      date.setUTCDate(date.getUTCDate() + amount);
+      return isoDate(date);
     }
 
-    function readableDate(isoDate) {
-      const parts = isoDate.split("-").map(Number);
+    function compareDates(a, b) {
+      return parseDate(a).getTime() - parseDate(b).getTime();
+    }
 
-      if (parts.length !== 3 || parts.some(Number.isNaN)) {
-        return isoDate;
-      }
-
-      const [year, month, day] = parts;
-
+    function formatFullDate(dateString) {
       return new Intl.DateTimeFormat("es-MX", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
         year: "numeric",
-        month: "long",
-        day: "numeric",
         timeZone: "America/Mexico_City"
-      }).format(new Date(Date.UTC(year, month - 1, day, 12, 0, 0)));
+      }).format(parseDate(dateString));
     }
 
-    async function updateSargazoLayer() {
-      const response = await fetch(
-        "./requests.json?t=" + Date.now(),
-        { cache: "no-store" }
-      );
+    function formatMonth(dateString) {
+      return new Intl.DateTimeFormat("es-MX", {
+        month: "long",
+        year: "numeric",
+        timeZone: "America/Mexico_City"
+      }).format(parseDate(dateString));
+    }
+
+    function weekdayShort(dateString) {
+      return new Intl.DateTimeFormat("es-MX", {
+        weekday: "short",
+        timeZone: "America/Mexico_City"
+      })
+        .format(parseDate(dateString))
+        .replace(".", "");
+    }
+
+    function dayNumber(dateString) {
+      return String(parseDate(dateString).getUTCDate());
+    }
+
+    function monthKey(dateString) {
+      return dateString.slice(0, 7);
+    }
+
+    function buildDateRange(centerDate) {
+      const dates = [];
+
+      for (let offset = -WINDOW_BEFORE; offset <= WINDOW_AFTER; offset += 1) {
+        dates.push(addDays(centerDate, offset));
+      }
+
+      return dates;
+    }
+
+    function findLatestDateFromRequests(data) {
+      if (!data || !Array.isArray(data.requests)) {
+        return null;
+      }
+
+      const dates = data.requests
+        .map(item => {
+          const match = String(item?.url || "").match(
+            /mean-7day-afai\/[^/]+\/(\d{4}-\d{2}-\d{2})\/wmts/i
+          );
+
+          return match ? match[1] : null;
+        })
+        .filter(Boolean)
+        .sort();
+
+      return dates.length ? dates[dates.length - 1] : null;
+    }
+
+    function renderMonthLabels(dates) {
+      monthRow.innerHTML = "";
+
+      const groups = [];
+      let current = null;
+
+      for (const date of dates) {
+        const key = monthKey(date);
+
+        if (!current || current.key !== key) {
+          current = {
+            key,
+            firstDate: date,
+            days: 0
+          };
+          groups.push(current);
+        }
+
+        current.days += 1;
+      }
+
+      for (const group of groups) {
+        const label = document.createElement("span");
+        label.className = "month-label";
+        label.textContent = formatMonth(group.firstDate);
+        label.style.width = `${group.days * 48}px`;
+        monthRow.appendChild(label);
+      }
+    }
+
+    function renderTimeline() {
+      const center = state.windowCenter || state.selectedDate || state.latestDate;
+      const dates = buildDateRange(center);
+
+      daysScroll.innerHTML = "";
+      renderMonthLabels(dates);
+
+      dates.forEach((date, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "day-button";
+        button.dataset.date = date;
+        button.title = formatFullDate(date);
+
+        if (index > 0 && monthKey(date) !== monthKey(dates[index - 1])) {
+          button.classList.add("month-divider");
+        }
+
+        if (date === state.selectedDate) {
+          button.classList.add("selected");
+        }
+
+        if (date === state.latestDate) {
+          button.classList.add("latest");
+        }
+
+        if (state.unavailable.has(date)) {
+          button.classList.add("unavailable");
+        }
+
+        if (state.latestDate && compareDates(date, state.latestDate) > 0) {
+          button.classList.add("future");
+          button.disabled = true;
+        }
+
+        const number = document.createElement("span");
+        number.className = "day-number";
+        number.textContent = dayNumber(date);
+
+        const weekday = document.createElement("span");
+        weekday.className = "day-name";
+        weekday.textContent = weekdayShort(date);
+
+        button.append(number, weekday);
+
+        button.addEventListener("click", () => {
+          stopPlayback();
+          loadProductDate(date, { centerInTimeline: false });
+        });
+
+        daysScroll.appendChild(button);
+      });
+
+      requestAnimationFrame(() => {
+        const selectedButton = daysScroll.querySelector(
+          `[data-date="${state.selectedDate}"]`
+        );
+
+        if (selectedButton) {
+          selectedButton.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center"
+          });
+        }
+      });
+    }
+
+    async function fetchProduct(dateString) {
+      if (state.cache.has(dateString)) {
+        return state.cache.get(dateString);
+      }
+
+      const url =
+        `${API_ENDPOINT}?composition=${encodeURIComponent(COMPOSITION)}` +
+        `&product_date=${encodeURIComponent(dateString)}`;
+
+      const response = await fetch(url, {
+        cache: "no-store",
+        mode: "cors"
+      });
 
       if (!response.ok) {
-        throw new Error("No se pudo abrir requests.json: HTTP " + response.status);
+        throw new Error(`HTTP ${response.status}`);
       }
 
-      const data = await response.json();
-      const request = findSargazoRequest(data);
+      const payload = await response.json();
+      const product =
+        payload?.success && payload?.response?.url
+          ? payload.response
+          : null;
 
-      if (!request) {
-        throw new Error("No apareció una tesela de mean-7day-afai");
+      state.cache.set(dateString, product);
+
+      if (!product) {
+        state.unavailable.add(dateString);
       }
 
-      const baseTemplate = makeTileTemplate(request.url);
-      const productDate = extractProductDate(baseTemplate);
-      const signature = `${productDate}|${data.generated_at || ""}`;
+      return product;
+    }
 
-      if (signature === activeSignature && sargazoLayer) {
-        setStatus(
-          `Sargazo SIMAR · ${readableDate(productDate)} · mapa interactivo`
-        );
-        return;
+    function replaceRasterLayer(product) {
+      if (state.layer) {
+        map.removeLayer(state.layer);
       }
 
       const cacheVersion = encodeURIComponent(
-        data.generated_at || Date.now().toString()
+        `${product.product_date}-${Date.now()}`
       );
 
-      const tileTemplate = `${baseTemplate}?v=${cacheVersion}`;
-
-      if (sargazoLayer) {
-        layerControl.removeLayer(sargazoLayer);
-        map.removeLayer(sargazoLayer);
-      }
-
-      sargazoLayer = L.tileLayer(tileTemplate, {
+      state.layer = L.tileLayer(`${product.url}?v=${cacheVersion}`, {
         minZoom: 3,
         maxZoom: 12,
-        opacity: 0.9,
+        opacity: 0.92,
         tileSize: 256,
         noWrap: true,
         crossOrigin: false,
-        attribution: "Capa de sargazo: SIMAR–CONABIO"
+        attribution: "Sargazo: SIMAR–CONABIO"
       });
 
-      sargazoLayer.on("tileerror", event => {
+      state.layer.on("tileerror", event => {
         console.warn("No cargó una tesela:", event?.tile?.src || event);
       });
 
-      sargazoLayer.addTo(map);
-      layerControl.addOverlay(sargazoLayer, "Sargazo SIMAR");
-
-      activeSignature = signature;
-      FALLBACK.style.display = "none";
-
-      setStatus(
-        `Sargazo SIMAR · ${readableDate(productDate)} · arrastra y usa la rueda para acercar`
-      );
+      state.layer.addTo(map);
+      fallback.style.display = "none";
     }
 
-    async function start() {
+    async function loadProductDate(
+      dateString,
+      { centerInTimeline = true, silent = false } = {}
+    ) {
+      if (state.latestDate && compareDates(dateString, state.latestDate) > 0) {
+        return false;
+      }
+
+      const token = ++state.requestToken;
+
+      if (!silent) {
+        setStatus(`Consultando ${formatFullDate(dateString)}…`);
+      }
+
       try {
-        await updateSargazoLayer();
+        const product = await fetchProduct(dateString);
+
+        if (token !== state.requestToken) {
+          return false;
+        }
+
+        if (!product) {
+          state.unavailable.add(dateString);
+          renderTimeline();
+          setStatus(`No hay producto disponible para ${formatFullDate(dateString)}.`, true);
+          return false;
+        }
+
+        replaceRasterLayer(product);
+
+        state.selectedDate = product.product_date || dateString;
+
+        if (centerInTimeline) {
+          state.windowCenter = state.selectedDate;
+        }
+
+        selectedDateElement.textContent = formatFullDate(state.selectedDate);
+        productNameElement.textContent =
+          product.name
+            ? "Mean-AFAI · promedio de 7 días"
+            : "Mean-AFAI · 7 días";
+
+        renderTimeline();
+        setStatus(
+          `Sargazo SIMAR · ${formatFullDate(state.selectedDate)} · arrastra y usa la rueda para acercar`
+        );
+
+        return true;
       } catch (error) {
         console.error(error);
-        FALLBACK.src = "./latest.jpg?t=" + Date.now();
-        FALLBACK.style.display = "block";
+        renderTimeline();
         setStatus(
-          "No se pudo cargar la capa interactiva. Se muestra la captura de respaldo.",
+          `No se pudo consultar ${formatFullDate(dateString)}. Revisa la conexión.`,
+          true
+        );
+        return false;
+      }
+    }
+
+    async function moveByDay(direction) {
+      if (!state.selectedDate) {
+        return;
+      }
+
+      let candidate = addDays(state.selectedDate, direction);
+
+      for (let attempts = 0; attempts < 12; attempts += 1) {
+        if (
+          state.latestDate &&
+          compareDates(candidate, state.latestDate) > 0
+        ) {
+          stopPlayback();
+          return;
+        }
+
+        const loaded = await loadProductDate(candidate, {
+          centerInTimeline: false,
+          silent: state.playing
+        });
+
+        if (loaded) {
+          return;
+        }
+
+        candidate = addDays(candidate, direction);
+      }
+
+      stopPlayback();
+    }
+
+    function stopPlayback() {
+      state.playing = false;
+
+      if (state.playTimer) {
+        clearInterval(state.playTimer);
+        state.playTimer = null;
+      }
+
+      playPauseButton.textContent = "▶";
+      playPauseButton.title = "Reproducir";
+    }
+
+    function startPlayback() {
+      if (!state.selectedDate) {
+        return;
+      }
+
+      state.playing = true;
+      playPauseButton.textContent = "Ⅱ";
+      playPauseButton.title = "Pausar";
+
+      state.playTimer = setInterval(async () => {
+        if (!state.playing) {
+          return;
+        }
+
+        await moveByDay(1);
+      }, PLAY_INTERVAL_MS);
+    }
+
+    playPauseButton.addEventListener("click", () => {
+      if (state.playing) {
+        stopPlayback();
+      } else {
+        startPlayback();
+      }
+    });
+
+    previousDayButton.addEventListener("click", async () => {
+      stopPlayback();
+      await moveByDay(-1);
+    });
+
+    nextDayButton.addEventListener("click", async () => {
+      stopPlayback();
+      await moveByDay(1);
+    });
+
+    olderWindowButton.addEventListener("click", () => {
+      stopPlayback();
+      state.windowCenter = addDays(state.windowCenter, -30);
+      renderTimeline();
+    });
+
+    newerWindowButton.addEventListener("click", () => {
+      stopPlayback();
+
+      const proposed = addDays(state.windowCenter, 30);
+
+      state.windowCenter =
+        compareDates(proposed, state.latestDate) > 0
+          ? state.latestDate
+          : proposed;
+
+      renderTimeline();
+    });
+
+    async function initialize() {
+      try {
+        const requestsResponse = await fetch(
+          `./requests.json?t=${Date.now()}`,
+          { cache: "no-store" }
+        );
+
+        if (!requestsResponse.ok) {
+          throw new Error(`requests.json HTTP ${requestsResponse.status}`);
+        }
+
+        const requestData = await requestsResponse.json();
+        const latest = findLatestDateFromRequests(requestData);
+
+        if (!latest) {
+          throw new Error("No se encontró la fecha más reciente");
+        }
+
+        state.latestDate = latest;
+        state.selectedDate = latest;
+        state.windowCenter = latest;
+
+        renderTimeline();
+
+        const loaded = await loadProductDate(latest, {
+          centerInTimeline: true
+        });
+
+        if (!loaded) {
+          throw new Error("No se pudo cargar el producto más reciente");
+        }
+      } catch (error) {
+        console.error(error);
+
+        fallback.src = `./latest.jpg?t=${Date.now()}`;
+        fallback.style.display = "block";
+
+        setStatus(
+          "No se pudo iniciar la línea de tiempo. Se muestra la captura de respaldo.",
           true
         );
       }
     }
 
-    start();
-
-    // El workflow se actualiza periódicamente; esta revisión toma la nueva fecha
-    // sin necesidad de recargar manualmente Flowics.
-    setInterval(async () => {
-      try {
-        await updateSargazoLayer();
-      } catch (error) {
-        console.error("Actualización automática:", error);
-      }
-    }, 15 * 60 * 1000);
-
     window.addEventListener("resize", () => {
       map.invalidateSize({ animate: false });
     });
+
+    initialize();
   </script>
 </body>
 </html>
