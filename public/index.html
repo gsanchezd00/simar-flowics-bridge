@@ -2,35 +2,333 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <title>SIMAR Sargazo para Flowics</title>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <title>SIMAR Sargazo Interactivo</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+  >
+
   <style>
-    html,body {
-      width:100%;
-      height:100%;
-      margin:0;
-      overflow:hidden;
-      background:#06131f;
-    }
+    html,
+    body,
     #map {
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      border:0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #06131f;
+    }
+
+    #fallback {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      display: none;
+    }
+
+    #map {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+
+    #status {
+      position: fixed;
+      left: 14px;
+      bottom: 14px;
+      z-index: 1000;
+      max-width: min(560px, calc(100vw - 28px));
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 8px;
+      background: rgba(4, 17, 29, 0.82);
+      color: #fff;
+      font: 600 13px/1.25 Arial, Helvetica, sans-serif;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(5px);
+      pointer-events: none;
+    }
+
+    #status.error {
+      background: rgba(118, 21, 21, 0.88);
+    }
+
+    .leaflet-control-layers,
+    .leaflet-bar {
+      border: 0 !important;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.32) !important;
+    }
+
+    .leaflet-control-attribution {
+      background: rgba(255, 255, 255, 0.78) !important;
+      font-size: 10px !important;
+    }
+
+    @media (max-width: 700px) {
+      #status {
+        font-size: 11px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <img id="map" src="./latest.jpg" alt="Mapa satelital SIMAR de sargazo">
+  <img id="fallback" src="./latest.jpg" alt="Respaldo del mapa SIMAR">
+  <div id="map"></div>
+  <div id="status">Cargando capa satelital de sargazo…</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <script>
-    const image = document.getElementById("map");
-    function refresh() {
-      image.src = "./latest.jpg?t=" + Date.now();
+    "use strict";
+
+    const STATUS = document.getElementById("status");
+    const FALLBACK = document.getElementById("fallback");
+
+    const MAP_HOME = {
+      center: [20.0, -89.5],
+      zoom: 5
+    };
+
+    const map = L.map("map", {
+      center: MAP_HOME.center,
+      zoom: MAP_HOME.zoom,
+      minZoom: 3,
+      maxZoom: 12,
+      zoomControl: true,
+      dragging: true,
+      touchZoom: true,
+      scrollWheelZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: true,
+      worldCopyJump: false,
+      preferCanvas: true
+    });
+
+    const satellite = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        maxZoom: 19,
+        attribution: "Mapa base: Esri"
+      }
+    ).addTo(map);
+
+    const streets = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap"
+      }
+    );
+
+    let sargazoLayer = null;
+    let activeSignature = "";
+
+    const overlays = {};
+    const layerControl = L.control.layers(
+      {
+        "Satélite": satellite,
+        "Calles": streets
+      },
+      overlays,
+      {
+        position: "topright",
+        collapsed: true
+      }
+    ).addTo(map);
+
+    const HomeControl = L.Control.extend({
+      options: { position: "topleft" },
+
+      onAdd() {
+        const container = L.DomUtil.create("div", "leaflet-bar");
+        const button = L.DomUtil.create("a", "", container);
+
+        button.href = "#";
+        button.title = "Volver a México y el Caribe";
+        button.setAttribute("role", "button");
+        button.setAttribute("aria-label", "Volver a México y el Caribe");
+        button.innerHTML = "⌂";
+        button.style.fontSize = "22px";
+        button.style.fontWeight = "700";
+
+        L.DomEvent.disableClickPropagation(container);
+        L.DomEvent.on(button, "click", event => {
+          L.DomEvent.preventDefault(event);
+          map.setView(MAP_HOME.center, MAP_HOME.zoom, { animate: true });
+        });
+
+        return container;
+      }
+    });
+
+    map.addControl(new HomeControl());
+
+    function setStatus(message, isError = false) {
+      STATUS.textContent = message;
+      STATUS.classList.toggle("error", isError);
     }
-    setInterval(refresh, 5 * 60 * 1000);
+
+    function findSargazoRequest(data) {
+      if (!data || !Array.isArray(data.requests)) {
+        throw new Error("requests.json no contiene la lista esperada");
+      }
+
+      const pattern =
+        /https:\/\/dashboard-simar\.conabio\.gob\.mx\/api\/tiles\/mean-7day-afai\/[^/]+\/\d{4}-\d{2}-\d{2}\/wmts\/nsst\/webmercator\/\d+\/\d+\/\d+\.png/i;
+
+      return data.requests.find(item =>
+        item &&
+        typeof item.url === "string" &&
+        pattern.test(item.url) &&
+        (item.status === 200 || item.status === null)
+      );
+    }
+
+    function makeTileTemplate(sampleUrl) {
+      const withoutQuery = sampleUrl.split("?")[0];
+
+      const template = withoutQuery.replace(
+        /\/webmercator\/\d+\/\d+\/\d+\.png$/i,
+        "/webmercator/{z}/{x}/{y}.png"
+      );
+
+      if (!template.includes("{z}/{x}/{y}")) {
+        throw new Error("No se pudo convertir la URL en plantilla WMTS");
+      }
+
+      return template;
+    }
+
+    function extractProductDate(url) {
+      const match = url.match(
+        /mean-7day-afai\/[^/]+\/(\d{4}-\d{2}-\d{2})\/wmts/i
+      );
+
+      return match ? match[1] : "fecha no identificada";
+    }
+
+    function readableDate(isoDate) {
+      const parts = isoDate.split("-").map(Number);
+
+      if (parts.length !== 3 || parts.some(Number.isNaN)) {
+        return isoDate;
+      }
+
+      const [year, month, day] = parts;
+
+      return new Intl.DateTimeFormat("es-MX", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "America/Mexico_City"
+      }).format(new Date(Date.UTC(year, month - 1, day, 12, 0, 0)));
+    }
+
+    async function updateSargazoLayer() {
+      const response = await fetch(
+        "./requests.json?t=" + Date.now(),
+        { cache: "no-store" }
+      );
+
+      if (!response.ok) {
+        throw new Error("No se pudo abrir requests.json: HTTP " + response.status);
+      }
+
+      const data = await response.json();
+      const request = findSargazoRequest(data);
+
+      if (!request) {
+        throw new Error("No apareció una tesela de mean-7day-afai");
+      }
+
+      const baseTemplate = makeTileTemplate(request.url);
+      const productDate = extractProductDate(baseTemplate);
+      const signature = `${productDate}|${data.generated_at || ""}`;
+
+      if (signature === activeSignature && sargazoLayer) {
+        setStatus(
+          `Sargazo SIMAR · ${readableDate(productDate)} · mapa interactivo`
+        );
+        return;
+      }
+
+      const cacheVersion = encodeURIComponent(
+        data.generated_at || Date.now().toString()
+      );
+
+      const tileTemplate = `${baseTemplate}?v=${cacheVersion}`;
+
+      if (sargazoLayer) {
+        layerControl.removeLayer(sargazoLayer);
+        map.removeLayer(sargazoLayer);
+      }
+
+      sargazoLayer = L.tileLayer(tileTemplate, {
+        minZoom: 3,
+        maxZoom: 12,
+        opacity: 0.9,
+        tileSize: 256,
+        noWrap: true,
+        crossOrigin: false,
+        attribution: "Capa de sargazo: SIMAR–CONABIO"
+      });
+
+      sargazoLayer.on("tileerror", event => {
+        console.warn("No cargó una tesela:", event?.tile?.src || event);
+      });
+
+      sargazoLayer.addTo(map);
+      layerControl.addOverlay(sargazoLayer, "Sargazo SIMAR");
+
+      activeSignature = signature;
+      FALLBACK.style.display = "none";
+
+      setStatus(
+        `Sargazo SIMAR · ${readableDate(productDate)} · arrastra y usa la rueda para acercar`
+      );
+    }
+
+    async function start() {
+      try {
+        await updateSargazoLayer();
+      } catch (error) {
+        console.error(error);
+        FALLBACK.src = "./latest.jpg?t=" + Date.now();
+        FALLBACK.style.display = "block";
+        setStatus(
+          "No se pudo cargar la capa interactiva. Se muestra la captura de respaldo.",
+          true
+        );
+      }
+    }
+
+    start();
+
+    // El workflow se actualiza periódicamente; esta revisión toma la nueva fecha
+    // sin necesidad de recargar manualmente Flowics.
+    setInterval(async () => {
+      try {
+        await updateSargazoLayer();
+      } catch (error) {
+        console.error("Actualización automática:", error);
+      }
+    }, 15 * 60 * 1000);
+
+    window.addEventListener("resize", () => {
+      map.invalidateSize({ animate: false });
+    });
   </script>
 </body>
 </html>
