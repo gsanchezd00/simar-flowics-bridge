@@ -1,4 +1,4 @@
-<!doctype html>
+!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -10,7 +10,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
 
-  <title>SIMAR — Sargazo Embed para Flowics</title>
+  <title>SIMAR — Embed Navegable para Flowics</title>
 
   <link
     rel="stylesheet"
@@ -55,9 +55,15 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      min-width: 0;
+      min-height: 0;
       overflow: hidden;
-      contain: size layout paint;
+      overflow: clip;
+      contain: strict;
       isolation: isolate;
+      clip-path: inset(0);
+      transform: translateZ(0);
+      overscroll-behavior: none;
       background: #06131f;
     }
 
@@ -66,11 +72,20 @@
       inset: 0 0 var(--timeline-height) 0;
       width: 100%;
       height: auto;
+      min-width: 0;
+      min-height: 0;
       z-index: 1;
-      pointer-events: none;
+      overflow: hidden;
+      pointer-events: auto;
       touch-action: none;
-      cursor: default;
+      overscroll-behavior: contain;
+      cursor: grab;
       user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    #map:active {
+      cursor: grabbing;
     }
 
     #fallback {
@@ -467,19 +482,34 @@
     const nextDayButton = document.getElementById("nextDay");
     const newerWindowButton = document.getElementById("newerWindow");
 
+    const MAP_LIMITS = L.latLngBounds(
+      L.latLng(-12, -145),
+      L.latLng(55, -35)
+    );
+
     const map = L.map("map", {
       center: MAP_HOME.center,
       zoom: MAP_HOME.zoom,
       minZoom: 3,
       maxZoom: 12,
-      zoomControl: false,
-      dragging: false,
-      touchZoom: false,
-      scrollWheelZoom: false,
-      doubleClickZoom: false,
-      boxZoom: false,
+      zoomControl: true,
+      dragging: true,
+      touchZoom: true,
+      scrollWheelZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
       keyboard: false,
       worldCopyJump: false,
+      maxBounds: MAP_LIMITS,
+      maxBoundsViscosity: 1.0,
+      inertia: false,
+      zoomAnimation: false,
+      fadeAnimation: false,
+      markerZoomAnimation: false,
+      bounceAtZoomLimits: false,
+      zoomSnap: 1,
+      zoomDelta: 1,
+      wheelPxPerZoomLevel: 80,
       preferCanvas: true
     });
 
@@ -487,11 +517,81 @@
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         maxZoom: 19,
-        attribution: "Mapa base: Esri · vista fija"
+        attribution: "Mapa base: Esri"
       }
     ).addTo(map);
 
+    const mapElement = document.getElementById("map");
+    const embedRoot = document.getElementById("embed-root");
 
+    /*
+     * Leaflet conserva el zoom y el arrastre dentro del mapa.
+     * Estos eventos no se propagan al documento anfitrión de Flowics.
+     */
+    [
+      "wheel",
+      "mousedown",
+      "mouseup",
+      "mousemove",
+      "click",
+      "dblclick",
+      "contextmenu",
+      "pointerdown",
+      "pointermove",
+      "pointerup",
+      "touchstart",
+      "touchmove",
+      "touchend"
+    ].forEach(eventName => {
+      mapElement.addEventListener(
+        eventName,
+        event => {
+          event.stopPropagation();
+        },
+        { passive: eventName !== "wheel" }
+      );
+    });
+
+    /*
+     * Si el navegador intenta desplazar la página por la rueda o por gesto,
+     * mantenemos toda la interacción encerrada en el rectángulo del embed.
+     */
+    embedRoot.addEventListener(
+      "wheel",
+      event => {
+        event.stopPropagation();
+      },
+      { passive: true }
+    );
+
+    const HomeControl = L.Control.extend({
+      options: { position: "topleft" },
+
+      onAdd() {
+        const container = L.DomUtil.create("div", "leaflet-bar");
+        const button = L.DomUtil.create("a", "", container);
+
+        button.href = "#";
+        button.title = "Regresar a la vista inicial";
+        button.setAttribute("role", "button");
+        button.setAttribute("aria-label", "Regresar a la vista inicial");
+        button.innerHTML = "⌂";
+        button.style.fontSize = "21px";
+        button.style.fontWeight = "700";
+
+        L.DomEvent.disableClickPropagation(container);
+        L.DomEvent.disableScrollPropagation(container);
+
+        L.DomEvent.on(button, "click", event => {
+          L.DomEvent.preventDefault(event);
+          map.setView(MAP_HOME.center, MAP_HOME.zoom, { animate: false });
+        });
+
+        return container;
+      }
+    });
+
+    map.addControl(new HomeControl());
 
     function setStatus(message, isError = false) {
       statusText.textContent = message;
@@ -786,7 +886,7 @@
 
         renderTimeline();
         setStatus(
-          `Sargazo SIMAR · ${formatFullDate(state.selectedDate)} · usa la línea de tiempo inferior`
+          `Sargazo SIMAR · ${formatFullDate(state.selectedDate)} · arrastra y haz zoom dentro del mapa · usa la línea de tiempo inferior`
         );
 
         return true;
@@ -942,8 +1042,6 @@
         );
       }
     }
-
-    const embedRoot = document.getElementById("embed-root");
 
     const resizeObserver = new ResizeObserver(() => {
       map.invalidateSize({ animate: false });
