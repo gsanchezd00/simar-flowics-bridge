@@ -10,7 +10,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
 
-  <title>SIMAR Sargazo Embed</title>
+  <title>SIMAR Sargazo — Último producto disponible</title>
 
   <link
     rel="stylesheet"
@@ -901,6 +901,54 @@
       return product;
     }
 
+    function todayInMexicoISO() {
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone: "America/Mexico_City"
+      }).formatToParts(new Date());
+
+      const values = {};
+
+      for (const part of parts) {
+        if (part.type !== "literal") {
+          values[part.type] = part.value;
+        }
+      }
+
+      return `${values.year}-${values.month}-${values.day}`;
+    }
+
+    /*
+     * Busca directamente en la API de SIMAR:
+     * hoy, ayer y hasta 14 días atrás.
+     *
+     * Así el visor no depende de que requests.json se haya actualizado.
+     */
+    async function findLatestAvailableProduct() {
+      const today = todayInMexicoISO();
+
+      for (let offset = 0; offset <= 14; offset += 1) {
+        const requestedDate = addDays(today, -offset);
+
+        try {
+          const product = await fetchProduct(requestedDate);
+
+          if (product?.url && product?.product_date) {
+            return product;
+          }
+        } catch (error) {
+          console.warn(
+            `No se pudo consultar ${requestedDate}:`,
+            error
+          );
+        }
+      }
+
+      return null;
+    }
+
     function replaceRasterLayer(product) {
       const center = map.getCenter();
       const zoom = map.getZoom();
@@ -1107,15 +1155,24 @@
         const wasFollowingLatest =
           !state.selectedDate || state.selectedDate === previousLatest;
 
-        const requestData = await fetchRequestData();
-        const newestDate = findLatestDateFromRequests(requestData);
+        /*
+         * Borramos del caché únicamente las fechas recientes para volver
+         * a consultar si SIMAR publicó un producto nuevo.
+         */
+        const today = todayInMexicoISO();
 
-        if (!newestDate) {
+        for (let offset = 0; offset <= 5; offset += 1) {
+          state.cache.delete(addDays(today, -offset));
+        }
+
+        const latestProduct = await findLatestAvailableProduct();
+
+        if (!latestProduct) {
           return;
         }
 
+        const newestDate = latestProduct.product_date;
         state.latestDate = newestDate;
-        state.cache.delete(newestDate);
 
         if (
           CONFIG.followlatest &&
@@ -1131,8 +1188,7 @@
         }
 
         /*
-         * La actualización de 14 horas cambia datos,
-         * pero conserva exactamente la vista del operador.
+         * Actualizar datos jamás cambia el zoom ni el encuadre.
          */
         map.setView(viewCenter, viewZoom, { animate: false });
       } catch (error) {
@@ -1142,16 +1198,20 @@
 
     async function initialize() {
       try {
-        const requestData = await fetchRequestData();
-        const latest = findLatestDateFromRequests(requestData);
+        setStatus("Buscando el producto más reciente publicado por SIMAR…");
 
-        if (!latest) {
-          throw new Error("No se encontró la fecha más reciente");
+        const latestProduct = await findLatestAvailableProduct();
+
+        if (!latestProduct) {
+          throw new Error("No se encontró un producto reciente");
         }
+
+        const latest = latestProduct.product_date;
 
         state.latestDate = latest;
         state.selectedDate = latest;
         state.windowCenter = latest;
+        state.cache.set(latest, latestProduct);
 
         renderTimeline();
 
@@ -1189,4 +1249,3 @@
   </script>
 </body>
 </html>
-
