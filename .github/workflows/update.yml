@@ -5,8 +5,12 @@ on:
   push:
     branches:
       - main
+
+  # Se revisa cada hora, pero la captura pesada solo corre
+  # cuando han transcurrido al menos 14 horas desde la última publicación.
   schedule:
-    - cron: "7,37 * * * *"
+    - cron: "17 * * * *"
+      timezone: "America/Mexico_City"
 
 permissions:
   contents: write
@@ -22,25 +26,63 @@ jobs:
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Comprobar intervalo de 14 horas
+        id: gate
+        shell: bash
+        run: |
+          set -e
+
+          # Los commits y las ejecuciones manuales siempre publican.
+          if [[ "${{ github.event_name }}" != "schedule" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "Ejecución manual o push: se actualizará."
+            exit 0
+          fi
+
+          git fetch origin gh-pages --depth=1 || true
+
+          LAST_UPDATE="$(git log -1 --format=%ct origin/gh-pages 2>/dev/null || echo 0)"
+          NOW="$(date +%s)"
+          AGE="$((NOW - LAST_UPDATE))"
+          FOURTEEN_HOURS="$((14 * 60 * 60))"
+
+          echo "Segundos desde la última publicación: $AGE"
+
+          if (( AGE >= FOURTEEN_HOURS )); then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "Ya pasaron 14 horas: se actualizará."
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Todavía no pasan 14 horas: se omite la captura."
+          fi
 
       - name: Preparar Node
+        if: steps.gate.outputs.run == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
       - name: Instalar dependencias
+        if: steps.gate.outputs.run == 'true'
         run: npm install
 
       - name: Instalar Chromium
+        if: steps.gate.outputs.run == 'true'
         run: npx playwright install --with-deps chromium
 
       - name: Capturar mapa SIMAR
+        if: steps.gate.outputs.run == 'true'
         run: npm run capture
 
       - name: Preparar sitio
+        if: steps.gate.outputs.run == 'true'
         run: touch public/.nojekyll
 
       - name: Publicar en gh-pages
+        if: steps.gate.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -49,7 +91,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Actualizar mapa SIMAR"
+          git commit -m "Actualizar mapa SIMAR cada 14 horas"
           git branch -M gh-pages
           git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git push --force origin gh-pages
