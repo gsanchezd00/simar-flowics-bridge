@@ -2,11 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+  >
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
 
-  <title>SIMAR — Fuente Full HD para Flowics</title>
+  <title>SIMAR Sargazo Embed</title>
 
   <link
     rel="stylesheet"
@@ -15,15 +19,14 @@
 
   <style>
     :root {
-      --timeline-height: 116px;
-      --panel: rgba(3, 18, 29, 0.93);
-      --panel-soft: rgba(8, 35, 51, 0.86);
-      --line: rgba(255, 255, 255, 0.16);
+      --timeline-height: 112px;
+      --panel: rgba(2, 18, 29, 0.95);
+      --line: rgba(255, 255, 255, 0.14);
       --text: #f4fbff;
-      --muted: #9eb7c5;
-      --accent: #18d9ff;
-      --latest: #00e56b;
-      --danger: #ff6262;
+      --muted: #91aeba;
+      --accent: #19d8f4;
+      --latest: #00e46a;
+      --danger: #ff6464;
     }
 
     * {
@@ -39,15 +42,16 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
+      overscroll-behavior: none;
       background: #06131f;
       font-family: Arial, Helvetica, sans-serif;
     }
 
     /*
-     * El iframe solo contiene este rectángulo.
-     * No tiene contenido en flujo capaz de ensanchar o desplazar Flowics.
+     * El documento nunca crea un ancho propio:
+     * solo ocupa el rectángulo del iframe de Flowics.
      */
-    #embed-root {
+    #embed {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -58,238 +62,212 @@
       background: #06131f;
     }
 
-    /*
-     * Escenario interno fijo, igual a una fuente Full HD.
-     * Flowics nunca recibe un ancho variable generado por el mapa.
-     */
-    #fullhd-stage {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 1920px;
-      height: 1080px;
-      overflow: hidden;
-      transform-origin: 0 0;
-      background: #06131f;
-    }
-
     #map {
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: var(--timeline-height);
-      left: 0;
-      z-index: 1;
+      inset: 0 0 var(--timeline-height) 0;
+      min-width: 0;
+      min-height: 0;
       overflow: hidden;
+      background: #06131f;
+      touch-action: none;
     }
 
     #fallback {
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: var(--timeline-height);
-      left: 0;
-      width: 1920px;
-      height: calc(1080px - var(--timeline-height));
+      inset: 0 0 var(--timeline-height) 0;
+      width: 100%;
+      height: calc(100% - var(--timeline-height));
       object-fit: cover;
-      z-index: 0;
       display: none;
-    }
-
-    .top-status {
-      position: absolute;
-      top: 14px;
-      left: 58px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      max-width: 1760px;
-      padding: 9px 13px;
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      background: rgba(2, 17, 28, 0.82);
-      color: var(--text);
-      font-size: 13px;
-      line-height: 1.2;
-      backdrop-filter: blur(6px);
       pointer-events: none;
     }
 
-    .top-status.error {
+    #status {
+      position: absolute;
+      top: 10px;
+      left: 54px;
+      z-index: 1000;
+      max-width: calc(100% - 74px);
+      padding: 7px 11px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(2, 17, 28, 0.82);
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    #status[hidden] {
+      display: none;
+    }
+
+    #status.error {
       background: rgba(112, 19, 25, 0.9);
     }
 
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      flex: 0 0 auto;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(24, 217, 255, 0.75);
-    }
-
-    .top-status.error .status-dot {
-      background: var(--danger);
-      box-shadow: none;
-    }
-
-    .timeline-shell {
+    #timeline {
       position: absolute;
-      left: 0;
       right: 0;
       bottom: 0;
+      left: 0;
       z-index: 1100;
       height: var(--timeline-height);
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 294px minmax(0, 1fr);
+      overflow: hidden;
       border-top: 1px solid var(--line);
       background: var(--panel);
       color: var(--text);
-      backdrop-filter: blur(10px);
     }
 
-    .timeline-controls {
-      min-width: 308px;
+    #timeline[hidden] {
+      display: none;
+    }
+
+    .controls {
       display: grid;
-      grid-template-columns: repeat(5, 38px) minmax(112px, auto);
-      grid-template-rows: 40px 34px;
+      grid-template-columns: repeat(5, 36px) minmax(90px, 1fr);
+      grid-template-rows: 37px 29px;
       align-content: center;
       align-items: center;
-      gap: 5px;
-      padding: 9px 12px;
+      gap: 4px;
+      min-width: 0;
+      padding: 8px 10px;
       border-right: 1px solid var(--line);
     }
 
-    .timeline-controls button {
-      width: 38px;
-      height: 34px;
+    .controls button {
+      width: 36px;
+      height: 32px;
       padding: 0;
       border: 1px solid var(--line);
-      border-radius: 7px;
+      border-radius: 6px;
       background: rgba(255, 255, 255, 0.06);
       color: var(--text);
       font-size: 16px;
       cursor: pointer;
     }
 
-    .timeline-controls button:hover {
-      border-color: rgba(24, 217, 255, 0.75);
-      background: rgba(24, 217, 255, 0.12);
+    .controls button:hover {
+      border-color: rgba(25, 216, 244, 0.75);
+      background: rgba(25, 216, 244, 0.13);
     }
 
-    .timeline-controls button:disabled {
+    .controls button:disabled {
       cursor: default;
-      opacity: 0.4;
+      opacity: 0.35;
     }
 
-    .timeline-controls .play {
-      color: var(--accent);
-      font-size: 17px;
-    }
-
-    .timeline-controls .date-box {
-      grid-column: 6;
-      grid-row: 1 / span 2;
-      min-width: 120px;
-      padding-left: 8px;
-      line-height: 1.05;
-    }
-
-    .timeline-controls .periodicity {
+    .periodicity {
       grid-column: 1 / span 5;
       grid-row: 2;
       align-self: end;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10px;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+    }
+
+    .date-box {
+      grid-column: 6;
+      grid-row: 1 / span 2;
+      min-width: 0;
+      padding-left: 6px;
+      overflow: hidden;
+    }
+
+    .date-main,
+    .date-sub {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .date-main {
-      color: var(--text);
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 700;
-      white-space: nowrap;
     }
 
     .date-sub {
       margin-top: 5px;
       color: var(--muted);
-      font-size: 11px;
-      white-space: nowrap;
+      font-size: 10px;
     }
 
-    .timeline-viewport {
-      position: relative;
+    .timeline-view {
       min-width: 0;
       overflow: hidden;
     }
 
-    .month-row {
-      height: 30px;
+    .months {
+      height: 27px;
       display: flex;
       align-items: center;
-      gap: 18px;
-      padding: 0 13px;
+      overflow: hidden;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
+      font-size: 10px;
       letter-spacing: 0.07em;
+      text-transform: uppercase;
       pointer-events: none;
     }
 
     .month-label {
       flex: 0 0 auto;
-      padding-right: 7px;
+      padding-left: 11px;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
-    .days-scroll {
+    .days {
       height: 85px;
       display: flex;
       align-items: stretch;
       overflow-x: auto;
       overflow-y: hidden;
       scrollbar-width: thin;
-      scrollbar-color: rgba(24, 217, 255, 0.55) transparent;
+      scrollbar-color: rgba(25, 216, 244, 0.55) transparent;
       scroll-behavior: smooth;
+      overscroll-behavior-x: contain;
     }
 
-    .days-scroll::-webkit-scrollbar {
-      height: 6px;
+    .days::-webkit-scrollbar {
+      height: 5px;
     }
 
-    .days-scroll::-webkit-scrollbar-thumb {
+    .days::-webkit-scrollbar-thumb {
       border-radius: 20px;
-      background: rgba(24, 217, 255, 0.55);
+      background: rgba(25, 216, 244, 0.55);
     }
 
-    .day-button {
+    .day {
       position: relative;
-      flex: 0 0 48px;
+      flex: 0 0 46px;
       height: 78px;
-      margin: 0;
-      padding: 14px 4px 7px;
+      padding: 13px 3px 6px;
       border: 0;
-      border-right: 1px solid rgba(255, 255, 255, 0.09);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
       background: transparent;
       color: var(--muted);
       cursor: pointer;
     }
 
-    .day-button:hover {
+    .day:hover {
       background: rgba(255, 255, 255, 0.06);
       color: var(--text);
     }
 
-    .day-button.selected {
-      background: rgba(24, 217, 255, 0.17);
+    .day.selected {
+      background: rgba(25, 216, 244, 0.17);
       color: #fff;
       box-shadow: inset 0 3px 0 var(--accent);
     }
 
-    .day-button.latest::after {
+    .day.latest::after {
       content: "";
       position: absolute;
       top: 6px;
@@ -298,22 +276,21 @@
       height: 6px;
       border-radius: 50%;
       background: var(--latest);
-      box-shadow: 0 0 9px rgba(0, 229, 107, 0.8);
     }
 
-    .day-button.unavailable {
-      color: rgba(158, 183, 197, 0.36);
+    .day.unavailable {
+      color: rgba(145, 174, 186, 0.34);
       text-decoration: line-through;
     }
 
-    .day-button.future {
-      opacity: 0.25;
+    .day.future {
+      opacity: 0.24;
       cursor: default;
     }
 
     .day-number {
       display: block;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       line-height: 1;
     }
@@ -321,60 +298,99 @@
     .day-name {
       display: block;
       margin-top: 7px;
-      font-size: 10px;
+      font-size: 9px;
       text-transform: uppercase;
     }
 
     .month-divider {
-      border-left: 2px solid rgba(24, 217, 255, 0.55);
+      border-left: 2px solid rgba(25, 216, 244, 0.52);
     }
 
     .leaflet-control-zoom,
     .leaflet-bar {
       border: 0 !important;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.32) !important;
+      box-shadow: 0 3px 14px rgba(0, 0, 0, 0.32) !important;
     }
 
     .leaflet-control-attribution {
-      background: rgba(255, 255, 255, 0.72) !important;
+      background: rgba(255, 255, 255, 0.74) !important;
       font-size: 9px !important;
     }
 
+    @media (max-width: 720px) {
+      :root {
+        --timeline-height: 142px;
+      }
+
+      #timeline {
+        grid-template-columns: 1fr;
+        grid-template-rows: 58px 84px;
+      }
+
+      .controls {
+        grid-template-columns: repeat(5, 34px) 1fr;
+        grid-template-rows: 31px 18px;
+        padding: 5px 8px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .controls button {
+        width: 34px;
+        height: 29px;
+      }
+
+      .months {
+        height: 22px;
+      }
+
+      .days {
+        height: 62px;
+      }
+
+      .day {
+        height: 58px;
+        padding-top: 9px;
+      }
+
+      .day-name {
+        margin-top: 4px;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <main id="embed-root">
-    <section id="fullhd-stage" aria-label="Mapa de sargazo Full HD">
-      <img id="fallback" src="./latest.jpg" alt="Captura de respaldo del mapa SIMAR">
-      <div id="map"></div>
+  <main id="embed">
+    <img
+      id="fallback"
+      src="./latest.jpg"
+      alt="Captura de respaldo del mapa SIMAR"
+    >
 
-  <div id="status" class="top-status" aria-live="polite">
-    <span class="status-dot"></span>
-    <span id="statusText">Cargando sargazo SIMAR…</span>
-  </div>
+    <div id="map"></div>
+    <div id="status" aria-live="polite">Cargando sargazo SIMAR…</div>
 
-  <section class="timeline-shell" aria-label="Línea de tiempo del sargazo">
-    <div class="timeline-controls">
-      <button id="olderWindow" title="Mostrar 30 días anteriores">«</button>
-      <button id="previousDay" title="Día anterior">‹</button>
-      <button id="playPause" class="play" title="Reproducir">▶</button>
-      <button id="nextDay" title="Día siguiente">›</button>
-      <button id="newerWindow" title="Mostrar 30 días posteriores">»</button>
+    <section id="timeline" aria-label="Línea de tiempo del sargazo">
+      <div class="controls">
+        <button id="olderWindow" title="Treinta días anteriores">«</button>
+        <button id="previousDay" title="Día anterior">‹</button>
+        <button id="playPause" title="Reproducir">▶</button>
+        <button id="nextDay" title="Día siguiente">›</button>
+        <button id="newerWindow" title="Treinta días posteriores">»</button>
 
-      <div class="periodicity">Periodicidad: diario</div>
+        <div class="periodicity">Periodicidad: diario</div>
 
-      <div class="date-box">
-        <div id="selectedDate" class="date-main">—</div>
-        <div id="productName" class="date-sub">Mean-AFAI · 7 días</div>
+        <div class="date-box">
+          <div id="selectedDate" class="date-main">—</div>
+          <div id="productName" class="date-sub">Mean-AFAI · 7 días</div>
+        </div>
       </div>
-    </div>
 
-    <div class="timeline-viewport">
-      <div id="monthRow" class="month-row"></div>
-      <div id="daysScroll" class="days-scroll"></div>
-    </div>
-  </section>
+      <div class="timeline-view">
+        <div id="months" class="months"></div>
+        <div id="days" class="days"></div>
+      </div>
     </section>
   </main>
 
@@ -387,14 +403,131 @@
     const API_ENDPOINT =
       "https://dashboard-simar.conabio.gob.mx/api/raster-layer/";
 
-    const MAP_HOME = {
-      center: [20.5, -89.5],
-      zoom: 5
+    const DEFAULTS = {
+      zoom: 5,
+      centerx: -89.5,
+      centery: 20.5,
+      maptype: 4,
+      showmenu: true,
+      showtimeline: true,
+      showstatus: false,
+      remember: false,
+      refreshhours: 14,
+      followlatest: true
     };
 
+    function parseBoolean(value, fallback) {
+      if (value === undefined || value === null || value === "") {
+        return fallback;
+      }
+
+      return !["false", "0", "no", "off"].includes(
+        String(value).toLowerCase()
+      );
+    }
+
+    function parseNumber(value, fallback, min, max) {
+      const number = Number(value);
+
+      if (!Number.isFinite(number)) {
+        return fallback;
+      }
+
+      return Math.min(max, Math.max(min, number));
+    }
+
+    /*
+     * Acepta parámetros normales:
+     * ?zoom=5&centerx=-89.5&centery=20.5
+     *
+     * También acepta estilo MarineTraffic en el hash:
+     * #zoom:5/maptype:4/centerx:-89.5/centery:20.5/remember:false
+     */
+    function readParameters() {
+      const search = new URLSearchParams(window.location.search);
+      const hashValues = {};
+
+      String(window.location.hash || "")
+        .replace(/^#/, "")
+        .split("/")
+        .filter(Boolean)
+        .forEach(part => {
+          const separator = part.indexOf(":");
+
+          if (separator > 0) {
+            const key = decodeURIComponent(part.slice(0, separator));
+            const value = decodeURIComponent(part.slice(separator + 1));
+            hashValues[key.toLowerCase()] = value;
+          }
+        });
+
+      function value(name) {
+        return search.has(name)
+          ? search.get(name)
+          : hashValues[name.toLowerCase()];
+      }
+
+      return {
+        zoom: parseNumber(value("zoom"), DEFAULTS.zoom, 3, 12),
+        centerx: parseNumber(value("centerx"), DEFAULTS.centerx, -180, 180),
+        centery: parseNumber(value("centery"), DEFAULTS.centery, -80, 80),
+        maptype: parseNumber(value("maptype"), DEFAULTS.maptype, 1, 4),
+        showmenu: parseBoolean(value("showmenu"), DEFAULTS.showmenu),
+        showtimeline: parseBoolean(
+          value("showtimeline"),
+          DEFAULTS.showtimeline
+        ),
+        showstatus: parseBoolean(value("showstatus"), DEFAULTS.showstatus),
+        remember: parseBoolean(value("remember"), DEFAULTS.remember),
+        refreshhours: parseNumber(
+          value("refreshhours"),
+          DEFAULTS.refreshhours,
+          1,
+          72
+        ),
+        followlatest: parseBoolean(
+          value("followlatest"),
+          DEFAULTS.followlatest
+        )
+      };
+    }
+
+    const CONFIG = readParameters();
+    const STORAGE_KEY = "simar-flowics-map-view-v1";
     const WINDOW_BEFORE = 34;
     const WINDOW_AFTER = 15;
     const PLAY_INTERVAL_MS = 1800;
+    const REFRESH_INTERVAL_MS = CONFIG.refreshhours * 60 * 60 * 1000;
+
+    function readRememberedView() {
+      if (!CONFIG.remember) {
+        return null;
+      }
+
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+
+        if (
+          parsed &&
+          Number.isFinite(parsed.lat) &&
+          Number.isFinite(parsed.lng) &&
+          Number.isFinite(parsed.zoom)
+        ) {
+          return parsed;
+        }
+      } catch {}
+
+      return null;
+    }
+
+    const rememberedView = readRememberedView();
+
+    const INITIAL_VIEW = {
+      center: rememberedView
+        ? [rememberedView.lat, rememberedView.lng]
+        : [CONFIG.centery, CONFIG.centerx],
+      zoom: rememberedView ? rememberedView.zoom : CONFIG.zoom
+    };
 
     const state = {
       latestDate: null,
@@ -408,13 +541,14 @@
       requestToken: 0
     };
 
-    const statusElement = document.getElementById("status");
-    const statusText = document.getElementById("statusText");
+    const embed = document.getElementById("embed");
+    const fallback = document.getElementById("fallback");
+    const status = document.getElementById("status");
+    const timeline = document.getElementById("timeline");
     const selectedDateElement = document.getElementById("selectedDate");
     const productNameElement = document.getElementById("productName");
-    const daysScroll = document.getElementById("daysScroll");
-    const monthRow = document.getElementById("monthRow");
-    const fallback = document.getElementById("fallback");
+    const monthsElement = document.getElementById("months");
+    const daysElement = document.getElementById("days");
 
     const olderWindowButton = document.getElementById("olderWindow");
     const previousDayButton = document.getElementById("previousDay");
@@ -422,17 +556,24 @@
     const nextDayButton = document.getElementById("nextDay");
     const newerWindowButton = document.getElementById("newerWindow");
 
+    status.hidden = !CONFIG.showstatus;
+    timeline.hidden = !CONFIG.showtimeline;
+
+    if (!CONFIG.showtimeline) {
+      document.documentElement.style.setProperty("--timeline-height", "0px");
+    }
+
     const MAP_LIMITS = L.latLngBounds(
       L.latLng(-12, -145),
       L.latLng(55, -35)
     );
 
     const map = L.map("map", {
-      center: MAP_HOME.center,
-      zoom: MAP_HOME.zoom,
+      center: INITIAL_VIEW.center,
+      zoom: INITIAL_VIEW.zoom,
       minZoom: 3,
       maxZoom: 12,
-      zoomControl: true,
+      zoomControl: CONFIG.showmenu,
       dragging: true,
       touchZoom: true,
       scrollWheelZoom: true,
@@ -449,44 +590,87 @@
       preferCanvas: true
     });
 
-    L.tileLayer(
+    const imagery = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         maxZoom: 19,
         attribution: "Mapa base: Esri"
       }
-    ).addTo(map);
+    );
 
-    const HomeControl = L.Control.extend({
-      options: { position: "topleft" },
-
-      onAdd() {
-        const container = L.DomUtil.create("div", "leaflet-bar");
-        const button = L.DomUtil.create("a", "", container);
-
-        button.href = "#";
-        button.title = "Volver a México y el Caribe";
-        button.setAttribute("role", "button");
-        button.setAttribute("aria-label", "Volver a México y el Caribe");
-        button.innerHTML = "⌂";
-        button.style.fontSize = "22px";
-        button.style.fontWeight = "700";
-
-        L.DomEvent.disableClickPropagation(container);
-        L.DomEvent.on(button, "click", event => {
-          L.DomEvent.preventDefault(event);
-          map.setView(MAP_HOME.center, MAP_HOME.zoom, { animate: true });
-        });
-
-        return container;
+    const streets = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap"
       }
+    );
+
+    if (CONFIG.maptype === 4) {
+      imagery.addTo(map);
+    } else {
+      streets.addTo(map);
+    }
+
+    if (CONFIG.showmenu) {
+      const HomeControl = L.Control.extend({
+        options: { position: "topleft" },
+
+        onAdd() {
+          const container = L.DomUtil.create("div", "leaflet-bar");
+          const button = L.DomUtil.create("a", "", container);
+
+          button.href = "#";
+          button.title = "Regresar a la vista inicial";
+          button.setAttribute("role", "button");
+          button.setAttribute("aria-label", "Regresar a la vista inicial");
+          button.innerHTML = "⌂";
+          button.style.fontSize = "21px";
+          button.style.fontWeight = "700";
+
+          L.DomEvent.disableClickPropagation(container);
+          L.DomEvent.disableScrollPropagation(container);
+
+          L.DomEvent.on(button, "click", event => {
+            L.DomEvent.preventDefault(event);
+            map.setView(INITIAL_VIEW.center, INITIAL_VIEW.zoom, {
+              animate: false
+            });
+          });
+
+          return container;
+        }
+      });
+
+      map.addControl(new HomeControl());
+    }
+
+    /*
+     * El mapa vive dentro de un iframe de Flowics.
+     * No toca estilos, dimensiones ni posiciones del documento padre.
+     */
+    map.on("moveend zoomend", () => {
+      if (!CONFIG.remember) {
+        return;
+      }
+
+      const center = map.getCenter();
+
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            lat: center.lat,
+            lng: center.lng,
+            zoom: map.getZoom()
+          })
+        );
+      } catch {}
     });
 
-    map.addControl(new HomeControl());
-
     function setStatus(message, isError = false) {
-      statusText.textContent = message;
-      statusElement.classList.toggle("error", isError);
+      status.textContent = message;
+      status.classList.toggle("error", isError);
     }
 
     function isoDate(date) {
@@ -576,7 +760,7 @@
     }
 
     function renderMonthLabels(dates) {
-      monthRow.innerHTML = "";
+      monthsElement.innerHTML = "";
 
       const groups = [];
       let current = null;
@@ -590,6 +774,7 @@
             firstDate: date,
             days: 0
           };
+
           groups.push(current);
         }
 
@@ -600,22 +785,31 @@
         const label = document.createElement("span");
         label.className = "month-label";
         label.textContent = formatMonth(group.firstDate);
-        label.style.width = `${group.days * 48}px`;
-        monthRow.appendChild(label);
+        label.style.width = `${group.days * 46}px`;
+        monthsElement.appendChild(label);
       }
     }
 
     function renderTimeline() {
+      if (!CONFIG.showtimeline) {
+        return;
+      }
+
       const center = state.windowCenter || state.selectedDate || state.latestDate;
+
+      if (!center) {
+        return;
+      }
+
       const dates = buildDateRange(center);
 
-      daysScroll.innerHTML = "";
+      daysElement.innerHTML = "";
       renderMonthLabels(dates);
 
       dates.forEach((date, index) => {
         const button = document.createElement("button");
         button.type = "button";
-        button.className = "day-button";
+        button.className = "day";
         button.dataset.date = date;
         button.title = formatFullDate(date);
 
@@ -655,16 +849,16 @@
           loadProductDate(date, { centerInTimeline: false });
         });
 
-        daysScroll.appendChild(button);
+        daysElement.appendChild(button);
       });
 
       requestAnimationFrame(() => {
-        const selectedButton = daysScroll.querySelector(
+        const selected = daysElement.querySelector(
           `[data-date="${state.selectedDate}"]`
         );
 
-        if (selectedButton) {
-          selectedButton.scrollIntoView({
+        if (selected) {
+          selected.scrollIntoView({
             behavior: "smooth",
             block: "nearest",
             inline: "center"
@@ -692,6 +886,7 @@
       }
 
       const payload = await response.json();
+
       const product =
         payload?.success && payload?.response?.url
           ? payload.response
@@ -707,6 +902,9 @@
     }
 
     function replaceRasterLayer(product) {
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+
       if (state.layer) {
         map.removeLayer(state.layer);
       }
@@ -725,11 +923,13 @@
         attribution: "Sargazo: SIMAR–CONABIO"
       });
 
-      state.layer.on("tileerror", event => {
-        console.warn("No cargó una tesela:", event?.tile?.src || event);
-      });
-
       state.layer.addTo(map);
+
+      /*
+       * Cambiar fecha o actualizar datos jamás reinicia
+       * el zoom ni el movimiento elegido por el operador.
+       */
+      map.setView(center, zoom, { animate: false });
       fallback.style.display = "none";
     }
 
@@ -757,7 +957,10 @@
         if (!product) {
           state.unavailable.add(dateString);
           renderTimeline();
-          setStatus(`No hay producto disponible para ${formatFullDate(dateString)}.`, true);
+          setStatus(
+            `No hay producto disponible para ${formatFullDate(dateString)}.`,
+            true
+          );
           return false;
         }
 
@@ -770,22 +973,17 @@
         }
 
         selectedDateElement.textContent = formatFullDate(state.selectedDate);
-        productNameElement.textContent =
-          product.name
-            ? "Mean-AFAI · promedio de 7 días"
-            : "Mean-AFAI · 7 días";
+        productNameElement.textContent = "Mean-AFAI · promedio de 7 días";
 
         renderTimeline();
-        setStatus(
-          `Sargazo SIMAR · ${formatFullDate(state.selectedDate)} · arrastra y usa la rueda para acercar`
-        );
+        setStatus(`Sargazo SIMAR · ${formatFullDate(state.selectedDate)}`);
 
         return true;
       } catch (error) {
         console.error(error);
         renderTimeline();
         setStatus(
-          `No se pudo consultar ${formatFullDate(dateString)}. Revisa la conexión.`,
+          `No se pudo consultar ${formatFullDate(dateString)}.`,
           true
         );
         return false;
@@ -845,11 +1043,9 @@
       playPauseButton.title = "Pausar";
 
       state.playTimer = setInterval(async () => {
-        if (!state.playing) {
-          return;
+        if (state.playing) {
+          await moveByDay(1);
         }
-
-        await moveByDay(1);
       }, PLAY_INTERVAL_MS);
     }
 
@@ -890,18 +1086,63 @@
       renderTimeline();
     });
 
-    async function initialize() {
-      try {
-        const requestsResponse = await fetch(
-          `./requests.json?t=${Date.now()}`,
-          { cache: "no-store" }
-        );
+    async function fetchRequestData() {
+      const response = await fetch(
+        `./requests.json?t=${Date.now()}`,
+        { cache: "no-store" }
+      );
 
-        if (!requestsResponse.ok) {
-          throw new Error(`requests.json HTTP ${requestsResponse.status}`);
+      if (!response.ok) {
+        throw new Error(`requests.json HTTP ${response.status}`);
+      }
+
+      return response.json();
+    }
+
+    async function refreshLatestData() {
+      try {
+        const viewCenter = map.getCenter();
+        const viewZoom = map.getZoom();
+        const previousLatest = state.latestDate;
+        const wasFollowingLatest =
+          !state.selectedDate || state.selectedDate === previousLatest;
+
+        const requestData = await fetchRequestData();
+        const newestDate = findLatestDateFromRequests(requestData);
+
+        if (!newestDate) {
+          return;
         }
 
-        const requestData = await requestsResponse.json();
+        state.latestDate = newestDate;
+        state.cache.delete(newestDate);
+
+        if (
+          CONFIG.followlatest &&
+          wasFollowingLatest &&
+          newestDate !== previousLatest
+        ) {
+          await loadProductDate(newestDate, {
+            centerInTimeline: true,
+            silent: true
+          });
+        } else {
+          renderTimeline();
+        }
+
+        /*
+         * La actualización de 14 horas cambia datos,
+         * pero conserva exactamente la vista del operador.
+         */
+        map.setView(viewCenter, viewZoom, { animate: false });
+      } catch (error) {
+        console.warn("Actualización automática:", error);
+      }
+    }
+
+    async function initialize() {
+      try {
+        const requestData = await fetchRequestData();
         const latest = findLatestDateFromRequests(requestData);
 
         if (!latest) {
@@ -919,7 +1160,7 @@
         });
 
         if (!loaded) {
-          throw new Error("No se pudo cargar el producto más reciente");
+          throw new Error("No se pudo cargar el producto reciente");
         }
       } catch (error) {
         console.error(error);
@@ -928,46 +1169,23 @@
         fallback.style.display = "block";
 
         setStatus(
-          "No se pudo iniciar la línea de tiempo. Se muestra la captura de respaldo.",
+          "No se pudo iniciar el mapa. Se muestra la captura de respaldo.",
           true
         );
       }
     }
 
-    const embedRoot = document.getElementById("embed-root");
-    const fullHdStage = document.getElementById("fullhd-stage");
-
-    function fitFullHdStage() {
-      const width = Math.max(1, embedRoot.clientWidth);
-      const height = Math.max(1, embedRoot.clientHeight);
-
-      /*
-       * Se escala exactamente al rectángulo del External Content.
-       * El tamaño lógico siempre permanece en 1920 × 1080.
-       */
-      const scaleX = width / 1920;
-      const scaleY = height / 1080;
-
-      fullHdStage.style.transform = `scale(${scaleX}, ${scaleY})`;
-    }
-
     window.addEventListener("resize", () => {
-      fitFullHdStage();
+      map.invalidateSize({ animate: false });
     });
 
-    fitFullHdStage();
     initialize();
 
-    /*
-     * Flowics puede asignar el tamaño final unas décimas después de cargar.
-     * Solo recalculamos la escala; jamás modificamos el tamaño del iframe.
-     */
-    [100, 300, 700, 1500].forEach(delay => {
-      setTimeout(() => {
-        fitFullHdStage();
-        map.invalidateSize({ animate: false });
-      }, delay);
-    });
+    setTimeout(() => {
+      map.invalidateSize({ animate: false });
+    }, 400);
+
+    setInterval(refreshLatestData, REFRESH_INTERVAL_MS);
   </script>
 </body>
 </html>
