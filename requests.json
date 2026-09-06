@@ -1,0 +1,1392 @@
+{
+  "generated_at": "2026-09-06T14:11:18.264Z",
+  "total": 154,
+  "requests": [
+    {
+      "url": "https://b.tile.openstreetmap.org/4/3/7.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://b.tile.opentopomap.org/4/3/7.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/raster-layer/?composition=mean-7day-afai&product_date=2026-09-05",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/json",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:57.135Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/10/12.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.411Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/10/13.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.707Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/10/14.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.425Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/10/15.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.505Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/10/16.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.970Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/5/12.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.379Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/5/13.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.679Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/5/14.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.478Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/5/15.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.688Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/5/16.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.727Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/6/12.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.383Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/6/13.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.872Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/6/14.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.582Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/6/15.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.380Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/6/16.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.581Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/7/12.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.632Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/7/13.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.971Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/7/14.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.902Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/7/15.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:59.057Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/7/16.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.033Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/8/12.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.786Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/8/13.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:59.033Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/8/14.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.934Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/8/15.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:59.059Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/8/16.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.963Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/9/12.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.477Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/9/13.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.690Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/9/14.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.437Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/9/15.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.775Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/tiles/mean-7day-afai/modis/2026-08-02/wmts/nsst/webmercator/5/9/16.png?v=1788703857133",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:58.964Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/0/0/0",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.807Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/10",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/11",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/4",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/5",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/6",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.871Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/7",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.871Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/8",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.871Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/12/9",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/10",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/11",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/4",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/5",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/6",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.870Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/7",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.821Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/8",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.821Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/13/9",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.870Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/10",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/11",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/4",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/5",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/6",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.843Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/7",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.803Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/8",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.821Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/14/9",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.843Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/10",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/11",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/4",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/5",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/6",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.871Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/7",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.843Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/8",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.843Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/15/9",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.871Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/10",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/11",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/4",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/5",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.892Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/6",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/7",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.871Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/8",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.871Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/5/16/9",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.887Z"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/?satsum=mcs-7days-modis",
+      "method": "GET",
+      "resource_type": "document",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:24.627Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/?satsum=mean-7day-afai",
+      "method": "GET",
+      "resource_type": "document",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:53.554Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/sargazo.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/js/mapbox/Leaflet.TileLayer.GL.js",
+      "method": "GET",
+      "resource_type": "script",
+      "status": 200,
+      "content_type": "text/javascript",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:53.749Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/js/vectortiles.js?r=1788703826244",
+      "method": "GET",
+      "resource_type": "script",
+      "status": 200,
+      "content_type": "text/javascript",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:31.353Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/js/vectortiles.js?r=1788703853688",
+      "method": "GET",
+      "resource_type": "script",
+      "status": 200,
+      "content_type": "text/javascript",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/plugins/geojson-tile-layer.js",
+      "method": "GET",
+      "resource_type": "script",
+      "status": 200,
+      "content_type": "text/javascript",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:53.820Z"
+    },
+    {
+      "url": "https://tiles.arcgis.com/tiles/C8EMgrsFcRFL6LrL/arcgis/rest/services/GEBCO_basemap_NCEI/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://tiles.arcgis.com/tiles/C8EMgrsFcRFL6LrL/arcgis/rest/services/GEBCO_grayscale_basemap_NCEI/MapServer/tile/4/7/3",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:55.814Z"
+    },
+    {
+      "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-PKFXTX2BE3&gtm=45je6921v9122488655za20g&_p=1788703831640&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EAAI&cid=214304401.1788703832&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=13&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=es-mx&_s=1&tag_exp=115938465~115938469~118897920~118897930~120213116~120385422~120469145~120469153&sid=1788703832&sct=1&seg=0&dl=https%3A%2F%2Fsimar.conabio.gob.mx%2Fexplorer%2F%3Fsatsum%3Dmcs-7days-modis&dt=SIMAR%20%7C%20CONABIO&en=page_view&_fv=1&_ss=1&tfd=7986",
+      "method": "POST",
+      "resource_type": "fetch",
+      "status": 204,
+      "content_type": "text/plain",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:32.183Z"
+    },
+    {
+      "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-PKFXTX2BE3&gtm=45je6921v9122488655za20g&_p=1788703854420&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EAAIAAQ&cid=214304401.1788703832&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=5&sr=1920x1080&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=es-mx&_s=1&tag_exp=115938466~115938469~118897920~118897930~120213116~120385422~120412526~120469145~120469153~120914213&sid=1788703832&sct=1&seg=1&dl=https%3A%2F%2Fsimar.conabio.gob.mx%2Fexplorer%2F%3Fsatsum%3Dmean-7day-afai&dt=SIMAR%20%7C%20CONABIO&en=page_view&tfd=6548",
+      "method": "POST",
+      "resource_type": "fetch",
+      "status": 204,
+      "content_type": "text/plain",
+      "likely_product": true,
+      "captured_at": "2026-09-06T14:10:59.909Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/basemaps/",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/json",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.265Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/get-ip-data/",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/json",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.800Z"
+    },
+    {
+      "url": "https://dashboard-simar.conabio.gob.mx/api/menu/",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/json",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.776Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/config/brand.json",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/json; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.267Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/config/config.json",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/json; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.268Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/config/locale.json",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/json; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.271Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/admin_menu.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/Ajustetipo1.jpg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.847Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/alertas.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.840Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/analisis.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.840Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/apuntador_mouse.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/arrastrar_soltar.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.829Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/brillo.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/cargando01.gif",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/gif",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.847Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/check_animado.gif",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/gif",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.847Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/Conabio_icono.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/Conabio_vertical_sd_rgb_blanco.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.848Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/datos.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/grupo_capas.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.848Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/herramientas.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.815Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/Logo_OBIS.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.850Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/logonuevo.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.848Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mascara.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.847Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/blanqueamiento.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/calidad_del_agua.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/gefCaribe.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/gefGolfo.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/gefPacifico.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/grid.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico_ph_de_la_superficie_marina.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico_quimica_del_oceano.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico_salinidad.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico3.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico4.jpg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico5.jpg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico6.jpg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico7.jpg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico8.jpg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.845Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/img_mosaico9.jpg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/mosaicos/ship-solid.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/publicaciones/libro01/conabio_lomo.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.842Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/publicaciones/libro01/contraportada.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.842Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/publicaciones/libro01/portada.gif",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/gif",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.842Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/punto_blanco.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.829Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/punto_morado.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.829Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/punto_negro.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.829Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/punto_verde.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.829Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/SIMAR_CONABIO_2018-2024b.png",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/png",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/images/simar.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:53.834Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/js/publicaciones.js",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/javascript",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.846Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/plugins/minimap/src/images/toggle-w.svg",
+      "method": "GET",
+      "resource_type": "image",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.897Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/buoy.mst",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/octet-stream",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.271Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_225.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.841Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_226.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.846Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_227.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.848Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_230.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.848Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_233.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.849Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_234.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.850Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_476.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.850Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_835.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.850Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/form_862.html",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:55.851Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/layers-manager.mst",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/octet-stream",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.898Z"
+    },
+    {
+      "url": "https://simar.conabio.gob.mx/explorer/templates/tools-manager.mst",
+      "method": "GET",
+      "resource_type": "xhr",
+      "status": 200,
+      "content_type": "application/octet-stream",
+      "likely_product": false,
+      "captured_at": "2026-09-06T14:10:54.898Z"
+    }
+  ]
+}
